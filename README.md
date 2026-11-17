@@ -24,10 +24,13 @@ pre-commit install
 
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
+Code runs in containers, not on your main machine. See
+[SANDBOXING.md](SANDBOXING.md) for the dev container and `make sandbox`.
+
 ---
 ### Ethics
 
-We only test systems we own or are authorized to test, and follow coordinated disclosure. See [SECURITY.md](SECURITY.md).
+We only test systems we own or are authorized to test, and follow coordinated disclosure. See [SECURITY.md](SECURITY.md) and [SCOPE.md](SCOPE.md).
 
 ---
 ### Contributing

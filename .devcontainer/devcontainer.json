@@ -1,0 +1,15 @@
+{
+  "name": "BSJ-MM-SEC-0",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "containerUser": "researcher",
+  "remoteUser": "researcher",
+  "updateRemoteUserUID": true,
+  "runArgs": [
+    "--cap-drop=ALL",
+    "--security-opt=no-new-privileges"
+  ],
+  "postCreateCommand": "pre-commit install --install-hooks"
+}

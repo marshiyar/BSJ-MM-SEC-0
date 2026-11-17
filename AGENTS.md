@@ -39,6 +39,32 @@ is public.
   matrix in `.github/workflows/codeql.yml`.
 - Keep PRs small and describe what changed and why.
 
+## Running AI agents
+
+These rules apply to any AI agent that works on this repository or on
+research for it. See [SANDBOXING.md](SANDBOXING.md) for the tiers.
+
+- An agent that executes code (runs commands, tests, scripts, or tools)
+  runs in the locked-down container (`make sandbox`, tier 2) or higher.
+  An agent that only reads and edits files may run on the main machine,
+  but must not execute anything there.
+- Give the agent only the work directory it needs. Never mount your home
+  directory, SSH keys, cloud credentials, or a git checkout into its
+  sandbox.
+- API keys and tokens are passed as environment variables when the agent
+  starts, for example `export PROVIDER_API_KEY=<API_KEY>` in the shell
+  that launches it. Never write them to a file: not to `.env`, config
+  files, scripts, notebooks, logs, or commit messages.
+- Use a separate key for agent work, with the lowest limits and
+  permissions the provider allows, so it can be revoked on its own.
+- Log every agent run: who started it, when, which agent and model, the
+  task given, the tier and work directory, and the commands it ran. Keep
+  the logs outside this repository (`*.log` is ignored) and check them for
+  secrets before sharing any part of them.
+- An agent must stay within [SCOPE.md](SCOPE.md). It must not be given
+  real target details unless that run is covered by an active scope
+  entry, and it must not write those details into this repository.
+
 ## Code style
 
 - Python: target 3.12+, follow PEP 8, add type hints. Manage
