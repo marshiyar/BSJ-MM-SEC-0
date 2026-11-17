@@ -1,0 +1,63 @@
+# --- Secrets and credentials (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+id_rsa*
+id_ed25519*
+*.kdbx
+credentials*.json
+secrets*.*
+*.token
+
+# --- Research data that should stay private ---
+loot/
+dumps/
+captures/
+*.pcap
+*.pcapng
+*.har
+*.dmp
+*.core
+wordlists/
+targets/
+reports/private/
+
+# --- Samples and binaries (store outside git) ---
+samples/
+*.exe
+*.dll
+*.so
+*.bin
+*.zip
+*.7z
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# --- Editors and OS ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
