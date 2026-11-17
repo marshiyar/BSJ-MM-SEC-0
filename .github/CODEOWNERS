@@ -1,0 +1,17 @@
+# Code owners for BSJ-MM-SEC-0
+#
+# Owners are requested for review automatically on every pull request that
+# touches files they own. GitHub only accepts usernames or teams here, and
+# each owner needs write access to the repository.
+#
+# Maintainers:
+#   MohammadArshiya Rahgozar  (@marshiyar)
+#   Mobin Norouzi             (GitHub username to be added)
+
+# Default owners for everything in the repository.
+* @marshiyar
+
+# Security-sensitive config: scanning workflows and pre-commit hooks.
+/.github/                @marshiyar
+/.pre-commit-config.yaml @marshiyar
+/SECURITY.md             @marshiyar
