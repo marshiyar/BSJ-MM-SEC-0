@@ -1,0 +1,96 @@
+# CodeQL code scanning for BSJ-MM-SEC-0.
+#
+# Results show up under the repository's Security tab > Code scanning.
+#
+# Right now the repository has no source code, so the only language enabled
+# is `actions` (it scans the GitHub Actions workflows in .github/workflows).
+# When you add code, uncomment the matching entry in the matrix below.
+# CodeQL fails a language job if it finds no files for that language, so
+# only enable languages that are actually present.
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    # Weekly full scan (Fridays 00:39 UTC) so new queries catch old code.
+    - cron: '39 0 * * 5'
+  # Lets you start a scan by hand from the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      # required for all workflows
+      security-events: write
+      # required to fetch internal or private CodeQL packs
+      packages: read
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build-mode: none
+        # Uncomment the languages you add to the repository.
+        # Interpreted languages never need a build:
+        # - language: python
+        #   build-mode: none
+        # - language: javascript-typescript
+        #   build-mode: none
+        # - language: ruby
+        #   build-mode: none
+        # Compiled languages can be scanned without building (`none`),
+        # or with `autobuild` / `manual` for more precise results:
+        # - language: c-cpp
+        #   build-mode: none
+        # - language: java-kotlin
+        #   build-mode: none
+        # - language: csharp
+        #   build-mode: none
+        # - language: go
+        #   build-mode: autobuild
+        # - language: rust
+        #   build-mode: none
+        # - language: swift
+        #   build-mode: autobuild
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    # Add runtime/compiler setup steps here if you switch a language to
+    # `manual` build mode (for example actions/setup-java or setup-go).
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        # Security research: run the widest built-in query suite.
+        # `security-and-quality` already includes everything in
+        # `security-extended` plus code-quality queries; listing both is
+        # harmless and makes the intent explicit.
+        queries: security-extended,security-and-quality
+
+    # Only runs for languages set to `manual` build mode. Replace the
+    # commands with the real build for your code.
+    - name: Run manual build steps
+      if: matrix.build-mode == 'manual'
+      shell: bash
+      run: |
+        echo 'Replace this step with the commands that build your code,'
+        echo 'for example: make bootstrap && make release'
+        exit 1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:${{ matrix.language }}"
