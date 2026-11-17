@@ -16,11 +16,13 @@ Security research by MohammadArshiya Rahgozar and Mobin Norouzi. Early stage, fo
 ```bash
 git clone https://github.com/marshiyar/BSJ-MM-SEC-0.git
 cd BSJ-MM-SEC-0
-pip install pre-commit
+uv tool install pre-commit
 pre-commit install
 ```
 
 `pre-commit` runs secret scanning (gitleaks) and file checks before every commit.
+
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 ---
 ### Ethics

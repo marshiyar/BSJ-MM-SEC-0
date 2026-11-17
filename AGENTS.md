@@ -41,8 +41,9 @@ is public.
 
 ## Code style
 
-- Python: target 3.12+, follow PEP 8, add type hints, and keep
-  dependencies pinned in `requirements.txt`.
+- Python: target 3.12+, follow PEP 8, add type hints. Manage
+  dependencies with uv (`uv add <pkg>`); commit `pyproject.toml`
+  and `uv.lock`, not `requirements.txt`.
 - Prefer the standard library over new dependencies.
 
 ## Reviews
