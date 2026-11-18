@@ -11,6 +11,10 @@
 ENGINE   ?= docker
 IMAGE    ?= bsj-mm-sec-0-dev
 CMD      ?= bash
+# Keep CMD out of the host shell's recipe. The container receives its raw
+# value through the environment and interprets it only after it starts.
+override SANDBOX_CMD := $(value CMD)
+export SANDBOX_CMD
 # Run as your own uid/gid so files written to WORK belong to you. Never as
 # root: if make itself runs as root, fall back to the image's user (1000).
 HOST_UID := $(shell id -u)
@@ -61,7 +65,8 @@ check-work:
 	@! git -C "$(WORK_ABS)" rev-parse --git-dir >/dev/null 2>&1 || { echo "Refusing to mount $(WORK_ABS): it is inside a git checkout" >&2; exit 1; }
 
 sandbox: check-work devcontainer-build
-	$(ENGINE) run $(SANDBOX_FLAGS) $(IMAGE) $(CMD)
+	$(ENGINE) run $(SANDBOX_FLAGS) --env SANDBOX_CMD $(IMAGE) \
+		sh -c 'exec sh -c "$$SANDBOX_CMD"'
 
 # Runs inside the sandbox and fails if any restriction is missing.
 sandbox-check: check-work devcontainer-build
