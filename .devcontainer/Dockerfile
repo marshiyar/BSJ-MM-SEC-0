@@ -14,7 +14,7 @@
 # hashes in tools.lock, generated from tools.in by `make devcontainer-lock`.
 
 # Python 3.12 on Debian 13 (trixie), slim variant
-FROM python:3.12-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+FROM python:3.15-slim-trixie@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928
 
 ARG USERNAME=researcher
 ARG USER_UID=1000
