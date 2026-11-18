@@ -32,3 +32,14 @@ jobs:
       run: |
         mkdir -p "$RUNNER_TEMP/sandbox-work"
         make sandbox-check WORK="$RUNNER_TEMP/sandbox-work"
+
+    - name: Check sandbox command isolation
+      run: |
+        sandbox_work="$RUNNER_TEMP/sandbox-command-work"
+        mkdir -p "$sandbox_work"
+        trap 'rm -f command-output sandbox-host-command-probe' EXIT
+        make sandbox WORK="$sandbox_work" \
+          CMD='printf "inside\n" > command-output; printf "inside\n" > sandbox-host-command-probe'
+        test -f "$sandbox_work/command-output"
+        test -f "$sandbox_work/sandbox-host-command-probe"
+        test ! -e sandbox-host-command-probe
