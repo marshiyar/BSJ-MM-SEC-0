@@ -1,0 +1,4 @@
+# Tools baked into the dev container image. Not project dependencies.
+# Regenerate the lock with: make devcontainer-lock
+pre-commit==4.7.0
+uv==0.13.9

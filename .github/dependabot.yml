@@ -6,3 +6,11 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore(deps)"
+
+  # Base image digest in .devcontainer/Dockerfile.
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"

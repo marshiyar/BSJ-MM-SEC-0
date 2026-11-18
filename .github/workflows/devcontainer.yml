@@ -1,0 +1,34 @@
+# Builds the dev container image and checks that `make sandbox` applies
+# every restriction (see SANDBOXING.md).
+name: "Dev container"
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ ".devcontainer/**", "Makefile", ".github/workflows/devcontainer.yml" ]
+  pull_request:
+    branches: [ "main" ]
+    paths: [ ".devcontainer/**", "Makefile", ".github/workflows/devcontainer.yml" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sandbox:
+    name: Build image and check sandbox
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: Build image
+      run: make devcontainer-build
+
+    - name: Check sandbox restrictions
+      run: |
+        mkdir -p "$RUNNER_TEMP/sandbox-work"
+        make sandbox-check WORK="$RUNNER_TEMP/sandbox-work"
